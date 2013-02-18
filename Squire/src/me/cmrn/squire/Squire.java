@@ -16,7 +16,7 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.util.TypedValue;
 
-public class MainActivity extends SherlockFragmentActivity implements
+public class Squire extends SherlockFragmentActivity implements
 		ActionBar.TabListener {
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
