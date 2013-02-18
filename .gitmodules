@@ -1,0 +1,8 @@
+[submodule "ActionBarSherlock"]
+	path = ActionBarSherlock
+	url = https://github.com/JakeWharton/ActionBarSherlock.git
+	ignore = dirty
+[submodule "drag-sort-listview"]
+	path = drag-sort-listview
+	url = https://github.com/bauerca/drag-sort-listview.git
+	ignore = dirty
