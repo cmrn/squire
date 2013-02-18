@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+   <item android:bottom="@dimen/bottom_bar_height_minus_border_height">
+      <shape android:shape="rectangle">
+            <solid android:color="#ff505459"/>
+        </shape>
+   </item>
+   
+   <item> 
+      <shape 
+        android:shape="rectangle">
+            <solid android:color="#9933b5e5" />
+        </shape>
+   </item>
+</layer-list>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:baselineAligned="true" >
+
+    <me.cmrn.squire.NoDefaultSpinner
+        android:id="@+id/stat_spinner"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:prompt="@string/prompt_stat" />
+	
+    <EditText
+        android:id="@+id/value_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:ems="3"
+        android:inputType="numberSigned"
+        android:selectAllOnFocus="true" />
+    
+    <ImageButton
+        android:id="@+id/remove_effect_button"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="?attr/remove_icon" />
+
+</TableRow>

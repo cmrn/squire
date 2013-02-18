@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="bottom_bar_height">48dp</dimen>
+    <dimen name="bottom_bar_border_height">1.5dp</dimen>
+    <dimen name="bottom_bar_height_minus_border_height">46.5dp</dimen>
+</resources>
