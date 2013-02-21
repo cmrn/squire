@@ -4,6 +4,7 @@ import me.cmrn.squire.R;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnShowListener;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -121,11 +122,26 @@ public class StatEditDialogFragment extends MyDialogFragment {
 		           }
 		       });
 		builder.setNegativeButton("Cancel", null);
-		Dialog d = builder.create();
+		AlertDialog d = builder.create();
 		
-		// make soft keyboard with numpad show when dialog opens
-	    d.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-	    baseValue.requestFocus();
+		if(stat == null) {
+		    // Disable save button (when the button is actually created)
+		    d.setOnShowListener(new OnShowListener() {
+	            @Override
+	            public void onShow(DialogInterface dialog) {                    
+	        		Button b = ((AlertDialog) dialog).getButton(DialogInterface.BUTTON_POSITIVE);
+	        		b.setEnabled(false);
+	            }
+	        });
+		    
+		    // make keyboard show for name
+		    d.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		    nameEdit.requestFocus();
+		} else {
+			// make numpad show for value
+		    d.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		    baseValue.requestFocus();
+		}
 	    
 	    return d;
 	}

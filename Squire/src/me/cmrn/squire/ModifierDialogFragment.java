@@ -18,6 +18,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.animation.AlphaAnimation;
 
@@ -110,23 +111,22 @@ public class ModifierDialogFragment extends MyDialogFragment {
 		       });
 		builder.setNegativeButton("Cancel", null);      
 	    AlertDialog d = builder.create();
-	    /*
-	    d.setOnShowListener(new OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialog) {                    
-                Button positiveButton = ((AlertDialog) dialog)
-                        .getButton(AlertDialog.BUTTON_POSITIVE);
-        	    
-                positiveButton.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-                        Toast.makeText(getActivity(), "Button Clicked",  Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                Button negativeButton = ((AlertDialog) dialog)
-                        .getButton(AlertDialog.BUTTON_NEGATIVE);
-            }
-        });*/
+	    
+	    if(modifier == null) {
+		    // Disable save button (when the button is actually created)
+		    d.setOnShowListener(new OnShowListener() {
+	            @Override
+	            public void onShow(DialogInterface dialog) {                    
+	        		Button b = ((AlertDialog) dialog).getButton(DialogInterface.BUTTON_POSITIVE);
+	        		b.setEnabled(false);
+	            }
+	        });
+		    
+		    // make keyboard show for name
+		    d.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		    nameEdit.requestFocus();
+		}
+	    
 		return d;
 	}
 	
