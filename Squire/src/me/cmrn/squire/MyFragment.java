@@ -1,8 +1,8 @@
 package me.cmrn.squire;
 
-import com.actionbarsherlock.app.SherlockFragment;
-
 import android.os.Bundle;
+
+import com.actionbarsherlock.app.SherlockFragment;
 
 public abstract class MyFragment extends SherlockFragment implements DataListener {
 	protected DataController data;

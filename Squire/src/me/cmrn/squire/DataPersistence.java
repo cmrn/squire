@@ -56,8 +56,7 @@ public class DataPersistence extends SQLiteOpenHelper {
 
 	@Override
 	public void onUpgrade(SQLiteDatabase thisDB, int oldVersion, int newVersion) {
-		// TODO Auto-generated method stub
-		
+		// Fill this method with logic to upgrade from previous versions of databases
 	}
 	
 	public Cursor getAllStats() {

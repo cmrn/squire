@@ -2,8 +2,6 @@ package me.cmrn.squire;
 
 import java.util.Locale;
 
-import me.cmrn.squire.R;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
