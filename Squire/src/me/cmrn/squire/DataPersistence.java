@@ -262,7 +262,7 @@ public class DataPersistence extends SQLiteOpenHelper {
 		try {
 		for(int i = 0; i < effects.size(); i++) {
 			Effect e = effects.get(i);
-			for(int j = 0; i < prevEffects.size(); j++) {
+			for(int j = 0; j < prevEffects.size(); j++) {
 				Effect pe = prevEffects.get(j);
 				if(e.getStatID() == pe.getStatID()) {
 					if(e.getValue() != pe.getValue()) {
