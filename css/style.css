@@ -1,0 +1,155 @@
+body {
+	background: #f4f4f4 url(/img/xv.png) repeat 0 0;
+	font-family: 'Open Sans', "Helvetica Neue", Helvetica, sans-serif;
+}
+
+h1, h2, h3 {
+	font-family: 'Pirata One', "Old English Text MT", serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-weight: normal;
+}
+
+h3 a:hover {
+	text-decoration: none;
+}
+
+p a:hover,
+h4 a:hover {
+	text-decoration: none;
+	padding-bottom: 1px;
+	border-bottom: 1px solid;
+}
+
+/* Custom container */
+.container-narrow {
+	padding: 30px;
+	margin: 0 auto;
+	max-width: 700px;
+	background-color: #fff;
+	border-radius: 0 0 5px 5px;
+	box-shadow: 0 0 10px #ccc;
+}
+.container-narrow > hr {
+	margin: 30px 0;
+}
+
+/* Main greeting */
+.jumbotron {
+	margin: 60px 0;
+	text-align: center;
+}
+.jumbotron h1 {
+	font-size: 125px;
+	line-height: 1;
+	text-shadow: 1px 1px 1px #ccc;
+}
+.jumbotron h1 img {
+	margin-right: 20px;
+}
+
+#find-me i {
+	padding-right: 12px;
+	color: #333;
+}
+
+::selection {
+	background-color: #cc2d2d;
+	color: #fff;
+}
+
+.btn-github > * {
+	vertical-align: middle;
+}
+
+.btn-github > i {
+	margin-left: 6px;
+	-webkit-transition: color 150ms;
+	-moz-transition: color 150ms;
+	-o-transition: color 150ms;
+	-ms-transition: color 150ms;
+	transition: color 150ms;
+}
+
+.btn-github:hover > i {
+	color: #08c;
+}
+
+.footer:after {
+	content: "";
+	display: block;
+	clear: both;
+}
+
+.footer p, .footer small {
+	margin: 0;
+}
+
+.carousel h4 {
+	text-align: center;
+}
+
+.carousel li {
+	margin-bottom: 0;
+}
+
+.carousel-control {
+	top: 53%;
+}
+.carousel-control i {
+	font-size: 40px;
+	margin-top: -3px; /* voodoo */
+	vertical-align: middle;
+}
+
+.carousel-control.left i {
+	margin-left: -3px; /* voodoo */
+}
+
+.carousel-control.right i {
+	margin-right: -3px; /* voodoo */
+}
+
+.tooltip .qr {
+	border: 5px solid white;
+	margin: 5px 0;
+}
+
+@media (min-width: 767px) {
+	.first {
+		margin-top: 0;
+	}
+
+	.last {
+		margin-bottom: 0;
+	}
+}
+
+@media (max-width: 767px) {
+	.jumbotron .btn {
+		margin-bottom: 10px;
+	}
+
+	.carousel-inner > .item {
+		display: initial;
+	}
+
+	.carousel-control {
+		display: none;
+	}
+
+	.carousel .thumbnails {
+		text-align: center;
+	}
+
+	.carousel .thumbnail {
+		display: inline-block;
+	}
+}
+
+@media (max-width: 400px) {
+	.jumbotron h1 {
+		font-size: 80px;
+	}
+}
