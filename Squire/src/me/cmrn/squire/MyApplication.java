@@ -1,5 +1,6 @@
 package me.cmrn.squire;
 
+
 public class MyApplication extends android.app.Application {
 	public DataController data;
 	public boolean editMode;

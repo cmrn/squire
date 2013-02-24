@@ -3,6 +3,7 @@ package me.cmrn.squire;
 import java.util.Locale;
 
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -34,6 +35,10 @@ public class Squire extends SherlockFragmentActivity implements
 		super.onCreate(savedInstanceState);
 		if(savedInstanceState == null) {
 			editMode = false;
+
+
+		    DialogFragment newFragment = new NagDialogFragment();
+		    newFragment.show(getSupportFragmentManager(), "nag");
 		} else {
 			editMode = savedInstanceState.getBoolean("editMode");
 		}
