@@ -32,14 +32,13 @@
 
     <CheckBox
         android:id="@+id/checkbox"
-        android:layout_width="32dp"
+        android:layout_width="@dimen/list_control_width"
         android:layout_height="match_parent"
-        android:focusable="false"
-		/>
+        android:focusable="false" />
 
     <ImageView
         android:id="@+id/drag_handle"
-        android:layout_width="32dp"
+        android:layout_width="@dimen/list_control_width"
         android:layout_height="match_parent"
         android:src="?attr/drag_handle_icon" />
 

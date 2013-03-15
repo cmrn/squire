@@ -3,8 +3,9 @@ package me.cmrn.squire;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
+import org.holoeverywhere.app.AlertDialog;
+import org.holoeverywhere.app.Dialog;
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnShowListener;
@@ -33,15 +34,10 @@ public class ModifierDialogFragment extends MyDialogFragment {
 	
 	private TableLayout effectsTable;
 	private EditText nameEdit;
-
-	public ModifierDialogFragment() { }
-	
-	public ModifierDialogFragment(Modifier modifier) {
-		this.modifier = modifier;
-	}
 	
 	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {		
+	public Dialog onCreateDialog(Bundle savedInstanceState) {	
+		try { modifier = getArguments().getParcelable("modifier"); } catch(NullPointerException e) { }
 	    Context context = getActivity();
 	    AlertDialog.Builder builder = new AlertDialog.Builder(context);
 	    // Get the layout inflater

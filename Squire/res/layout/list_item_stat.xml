@@ -48,7 +48,7 @@
     
     <ImageView
         android:id="@+id/drag_handle"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/list_control_width"
         android:layout_height="match_parent"
         android:src="?attr/drag_handle_icon"
         android:visibility="gone" />

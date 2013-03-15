@@ -1,0 +1,11 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">    
+    <style name="stat_suffix">
+        <item name="android:textSize">40sp</item>
+	    <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+    
+    <style name="stat_sign">
+        <item name="android:textSize">48sp</item>
+	    <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+</resources>

@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.database.Cursor;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class Modifier {
+public class Modifier implements Parcelable {
 	public static final String ID_COLUMN = "id";
 	public static final String NAME_COLUMN = "name";
 	public static final String IS_ENABLED_COLUMN = "is_enabled";
@@ -25,6 +27,13 @@ public class Modifier {
 		this.name = DataPersistence.getString(c, Modifier.NAME_COLUMN);
 		this.enabled = DataPersistence.getBoolean(c, Modifier.IS_ENABLED_COLUMN);
 		this.effects = new ArrayList<Effect>();
+	}
+	
+	public Modifier(Parcel p) {
+		this.id = p.readInt();
+		this.name = p.readString();
+		p.readList(effects, Effect.class.getClassLoader());
+		this.enabled = (Boolean) p.readValue(boolean.class.getClassLoader());
 	}
 	
 	public String toString() {
@@ -89,4 +98,28 @@ public class Modifier {
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeInt(id);
+		dest.writeString(name);
+		dest.writeList(effects);
+		dest.writeValue(enabled);
+	}
+	
+	public static final Parcelable.Creator<Modifier> CREATOR
+    = new Parcelable.Creator<Modifier>() {
+		public Modifier createFromParcel(Parcel in) {
+		    return new Modifier(in);
+		}
+		
+		public Modifier[] newArray(int size) {
+		    return new Modifier[size];
+		}
+	};
 }

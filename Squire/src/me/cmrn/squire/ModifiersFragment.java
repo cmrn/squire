@@ -1,9 +1,11 @@
 package me.cmrn.squire;
 
+import org.holoeverywhere.LayoutInflater;
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -19,7 +21,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.mobeta.android.dslv.DragSortController;
 import com.mobeta.android.dslv.DragSortListView;
 import com.mobeta.android.dslv.DragSortListView.DropListener;
@@ -27,18 +28,12 @@ import com.mobeta.android.dslv.DragSortListView.DropListener;
 public class ModifiersFragment extends MyFragment {
 	private ModifiersAdapter adapter;
 	private boolean editMode;
-
-	public ModifiersFragment() {
-		this.editMode = false;
-	}
-	
-	public ModifiersFragment(boolean editMode) {
-		this.editMode = editMode;
-	}
 		
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+
+		this.editMode = getArguments().getBoolean("editMode");
 		View view = inflater.inflate(R.layout.fragment_modifiers, container, false);
 
 		DragSortListView list = (DragSortListView) view.findViewById(R.id.modifiers_list);
@@ -69,7 +64,10 @@ public class ModifiersFragment extends MyFragment {
 					long id) {
 				if(editMode) {
 					Modifier modifier = (Modifier)parent.getItemAtPosition(position);
-					ModifierDialogFragment dialog = new ModifierDialogFragment(modifier);
+					ModifierDialogFragment dialog = new ModifierDialogFragment();
+					Bundle b = new Bundle();
+					b.putParcelable("modifier", modifier);
+					dialog.setArguments(b);
 					dialog.show(getFragmentManager(), "modifier");
 				} else {
 				  CheckBox checkbox = (CheckBox) view.findViewById(R.id.checkbox);
@@ -83,7 +81,7 @@ public class ModifiersFragment extends MyFragment {
 			
 			@Override
 			public void onClick(View v) {
-				ModifierDialogFragment dialog = new ModifierDialogFragment(null);
+				ModifierDialogFragment dialog = new ModifierDialogFragment();
 				dialog.show(getFragmentManager(), "modifier");
 			}
 		});
@@ -95,7 +93,7 @@ public class ModifiersFragment extends MyFragment {
 	@Override
 	public void setEditMode(boolean editMode) {
 		this.editMode = editMode;
-		SherlockFragmentActivity activity = getSherlockActivity();
+		FragmentActivity activity = getActivity();
 		ImageButton newButton = (ImageButton) activity.findViewById(R.id.new_modifier_button);
 		DragSortListView list = (DragSortListView) activity.findViewById(R.id.modifiers_list);
 		if(editMode) {

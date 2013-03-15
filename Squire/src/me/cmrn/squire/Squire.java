@@ -2,8 +2,10 @@ package me.cmrn.squire;
 
 import java.util.Locale;
 
+import org.holoeverywhere.app.DialogFragment;
+
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -11,11 +13,10 @@ import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
-public class Squire extends SherlockFragmentActivity implements
+public class Squire extends org.holoeverywhere.app.Activity implements
 		ActionBar.TabListener {
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -125,7 +126,7 @@ public class Squire extends SherlockFragmentActivity implements
 	        	editMode = !editMode;
 	        	getStatsFragment().setEditMode(editMode);
 	        	getModifiersFragment().setEditMode(editMode);
-	        	invalidateOptionsMenu();
+	        	ActivityCompat.invalidateOptionsMenu(this);
 		        return true;
 	        default:
 	    		return super.onOptionsItemSelected(item);
@@ -162,14 +163,21 @@ public class Squire extends SherlockFragmentActivity implements
 
 		@Override
 		public Fragment getItem(int position) {
+			MyFragment f;
 			switch(position) {
 			case 0:
-				return new StatsFragment(editMode);
+				f = new StatsFragment();
+				break;
 			case 1:
-				return new ModifiersFragment(editMode);
+				f = new ModifiersFragment();
+				break;
 			default:
 				throw new IndexOutOfBoundsException("Unknown position");
 			}
+			Bundle b = new Bundle();
+			b.putBoolean("editMode", editMode);
+			f.setArguments(b);
+			return f;
 		}
 
 		@Override

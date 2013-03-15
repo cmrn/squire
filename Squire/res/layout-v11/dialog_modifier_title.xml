@@ -23,6 +23,7 @@
         android:id="@+id/delete_modifier"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        style="?android:attr/borderlessButtonStyle"
         android:layout_weight="1"
         android:src="?attr/discard_icon" />
 

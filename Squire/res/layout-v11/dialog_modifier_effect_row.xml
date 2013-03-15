@@ -22,6 +22,7 @@
     
     <ImageButton
         android:id="@+id/remove_effect_button"
+        style="?android:attr/borderlessButtonStyle"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:src="?attr/remove_icon" />

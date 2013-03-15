@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="bottom_bar_height">40dp</dimen>
+    <dimen name="bottom_bar_height_minus_border_height">38.5dp</dimen>
 </resources>

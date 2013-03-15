@@ -1,11 +1,12 @@
 package me.cmrn.squire;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
+import org.holoeverywhere.app.AlertDialog;
+import org.holoeverywhere.app.Dialog;
+import org.holoeverywhere.app.DialogFragment;
+
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnShowListener;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -22,13 +23,9 @@ public class StatEditDialogFragment extends MyDialogFragment {
 	
 	private Stat stat;
 	
-	public StatEditDialogFragment(Stat stat) {
-		this.stat = stat;
-	}
-	
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		
+		try { stat = getArguments().getParcelable("stat"); } catch(NullPointerException e) { }
 	    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 	    // Get the layout inflater
 	    LayoutInflater inflater = getActivity().getLayoutInflater();

@@ -1,7 +1,8 @@
 package me.cmrn.squire;
 
+import org.holoeverywhere.app.DialogFragment;
+
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 
 public abstract class MyDialogFragment extends DialogFragment {
 	protected DataController data;

@@ -1,10 +1,11 @@
 package me.cmrn.squire;
 
+import org.holoeverywhere.LayoutInflater;
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Bundle;
-import android.util.TypedValue;
-import android.view.LayoutInflater;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -16,7 +17,6 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.mobeta.android.dslv.DragSortController;
 import com.mobeta.android.dslv.DragSortListView;
 import com.mobeta.android.dslv.DragSortListView.DropListener;
@@ -24,19 +24,12 @@ import com.mobeta.android.dslv.DragSortListView.DropListener;
 public class StatsFragment extends MyFragment {
 	private StatsAdapter adapter;
 	private boolean editMode;
-
-	public StatsFragment() {
-		this.editMode = false;
-	}
 	
-	public StatsFragment(boolean editMode) {
-		this.editMode = editMode;
-	}
-		
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		
+
+		this.editMode = getArguments().getBoolean("editMode");
 		View view = inflater.inflate(R.layout.fragment_stats, container, false);
 		
 		DragSortListView listView = (DragSortListView) view.findViewById(R.id.stats_list);
@@ -67,10 +60,13 @@ public class StatsFragment extends MyFragment {
 					Stat stat = (Stat) parent.getItemAtPosition(position);
 					MyDialogFragment dialog;
 					if(editMode) {
-						dialog = new StatEditDialogFragment(stat);
+						dialog = new StatEditDialogFragment();
 					} else {
-						dialog = new StatDialogFragment(stat);
+						dialog = new StatDialogFragment();
 					}
+					Bundle b = new Bundle();
+					b.putParcelable("stat", stat);
+					dialog.setArguments(b);
 					dialog.show(getFragmentManager(), "stat");
 			  }
 		});
@@ -80,7 +76,7 @@ public class StatsFragment extends MyFragment {
 			
 			@Override
 			public void onClick(View v) {
-				StatEditDialogFragment dialog = new StatEditDialogFragment(null);
+				StatEditDialogFragment dialog = new StatEditDialogFragment();
 				dialog.show(getFragmentManager(), "stat");
 			}
 		});
@@ -171,12 +167,12 @@ public class StatsFragment extends MyFragment {
 	public void setEditMode(boolean editMode) {
 		this.editMode = editMode;
 
-		SherlockFragmentActivity activity = getSherlockActivity();
+		FragmentActivity activity = getActivity();
 		ImageButton newButton = (ImageButton) activity.findViewById(R.id.new_stat_button);
 		DragSortListView list = (DragSortListView) activity.findViewById(R.id.stats_list);
 		
 		float newButtonHeight = getResources().getDimensionPixelSize(R.dimen.bottom_bar_height);
-	    float handleWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 32, getResources().getDisplayMetrics());
+		float handleWidth = getResources().getDimensionPixelSize(R.dimen.list_control_width);
 		
 		if(editMode) {
 			list.setDragEnabled(true);

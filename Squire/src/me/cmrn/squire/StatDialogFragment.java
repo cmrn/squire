@@ -2,8 +2,9 @@ package me.cmrn.squire;
 
 import java.util.Locale;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
+import org.holoeverywhere.app.AlertDialog;
+import org.holoeverywhere.app.Dialog;
+
 import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -15,15 +16,9 @@ import android.widget.TextView;
 public class StatDialogFragment extends MyDialogFragment {	
 	private Stat stat;
 	
-	public StatDialogFragment() {
-	}
-	
-	public StatDialogFragment(Stat stat) {
-		this.stat = stat;
-	}
-	
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
+		try { stat = getArguments().getParcelable("stat"); } catch(NullPointerException e) { }
 		if(savedInstanceState != null) stat = (Stat) savedInstanceState.get("stat");
 		
 	    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

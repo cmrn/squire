@@ -1,6 +1,6 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- Application theme. -->
-    <style name="AppThemeLight" parent="Theme.Sherlock.Light.DarkActionBar">
+    <style name="AppThemeLight" parent="Holo.Theme.Light.DarkActionBar">
         <item name="menu_edit_icon">@drawable/edit_dark</item>
         <item name="menu_done_icon">@drawable/done_dark</item>
         <item name="menu_new_icon">@drawable/new_dark</item>
@@ -15,7 +15,7 @@
 	    <item name="dialog_title_color">#ff33b6e5</item>
     </style>
     
-    <style name="AppThemeDark" parent="Theme.Sherlock">
+    <style name="AppThemeDark" parent="Holo.Theme">
         <item name="menu_edit_icon">@drawable/edit_dark</item>
         <item name="menu_done_icon">@drawable/done_dark</item>
         <item name="menu_new_icon">@drawable/new_dark</item>
@@ -36,12 +36,10 @@
     
     <style name="stat_suffix">
         <item name="android:textSize">40sp</item>
-	    <item name="android:fontFamily">sans-serif-light</item>
     </style>
     
     <style name="stat_sign">
         <item name="android:textSize">48sp</item>
-	    <item name="android:fontFamily">sans-serif-light</item>
     </style>
     
     <style name="new_button">

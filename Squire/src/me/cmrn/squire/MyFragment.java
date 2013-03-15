@@ -1,10 +1,11 @@
 package me.cmrn.squire;
 
+import org.holoeverywhere.app.Fragment;
+
 import android.os.Bundle;
 
-import com.actionbarsherlock.app.SherlockFragment;
 
-public abstract class MyFragment extends SherlockFragment implements DataListener {
+public abstract class MyFragment extends Fragment implements DataListener {
 	protected DataController data;
 	
 	@Override

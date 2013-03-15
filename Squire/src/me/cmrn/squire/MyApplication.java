@@ -1,7 +1,7 @@
 package me.cmrn.squire;
 
 
-public class MyApplication extends android.app.Application {
+public class MyApplication extends org.holoeverywhere.app.Application {
 	public DataController data;
 	public boolean editMode;
 	
