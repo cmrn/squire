@@ -15,17 +15,22 @@
         android:text="Effects:"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <TableLayout
-        android:id="@+id/effects_table"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="0dp"
+        android:layout_weight="1" >
 
-    </TableLayout>
+        <TableLayout
+            android:id="@+id/effects_table"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+        </TableLayout>
+    </ScrollView>
 
     <ImageButton
         android:id="@+id/new_effect_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:src="?attr/new_icon" />
-	
+
 </LinearLayout>
