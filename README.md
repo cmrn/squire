@@ -5,14 +5,16 @@ Squire is a tool for pen & paper RPG players to track which buffs, debuffs, and 
 
 How to build
 ------------
-1. `git clone https://github.com/cmrn/squire.git`
-2. `git submodule init`
-3. `git submodule update`
-4. Import the "Squire" project from the Squire folder into Eclipse
-5. Import the "library" project from the ActionBarSherlock folder and rename it to "ActionBarSherlock"
+1. `mkdir squire && cd squire`
+2. `git clone --recursive https://github.com/cmrn/squire.git`
+3. Import the "Squire" project from the Squire folder into Eclipse
+4. Import the "HoloEverywhere Library" project from the HoloEverywhere folder
+5. Import the "library" project from the HoloEverywhere/contrib folder and rename it to "ActionBarSherlock"
 6. Import the "library" project from the drag-sort-listview folder and rename it to "drag-sort-listview"
 7. Replace `libs/android-support-v4.jar` in each of the library projects with the version from the Squire project
 8. Build!
+
+Note: Eclipse will complain if your workspace is set to the folder containing the source code when you try to import the projects. As a workaround, set your Eclipse workspace to a subdirectory within the squire folder, e.g. squire/workspace.
 
 Bugs, Features, & Contributions
 ------------
