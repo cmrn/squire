@@ -168,9 +168,9 @@ public class ModifiersFragment extends MyFragment {
 				@Override
 				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 					Modifier modifier = (Modifier) buttonView.getTag();
-					if(isChecked)
+					if(isChecked && !modifier.isEnabled())
 						data.enableModifier(modifier);
-					else
+					else if(!isChecked && modifier.isEnabled())
 						data.disableModifier(modifier);
 				}
 			});
