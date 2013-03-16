@@ -163,8 +163,8 @@ public class ModifierDialogFragment extends MyDialogFragment {
 			effects.add(effect);
 		}
 		
-		modifier.setEffects(effects);
 		data.updateModifier(modifier);
+		data.updateModifierEffects(modifier, effects);
 	}
 	
 	private void createNewRow() {

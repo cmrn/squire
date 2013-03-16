@@ -203,25 +203,40 @@ public class DataController {
 		
 		for(Modifier m : modifiers) {
 			if(m.getID() == modifier.getID()) {
-				if(m.getEffects().equals(modifier.getEffects())) {
-					persistence.updateModifierEffects(modifier);
-					for(Effect effect : m.getEffects()) {
-						Stat stat = getStat(effect.getStatID());
-						stat.removeEffect(effect);
-					}
-					if(modifier.isEnabled()) {
-						for(Effect effect : modifier.getEffects()) {
-							Stat stat = getStat(effect.getStatID());
-							stat.addEffect(effect);
-						}
-					}
-					callStatsListeners();
-				}
 				modifiers.set(modifiers.indexOf(m), modifier);
 				break;
 			}
 		}
 		callModifiersListeners();
+	}
+	
+	public void updateModifierEffects(Modifier modifier, List<Effect> newEffects) {
+		if(!modifier.getEffects().equals(newEffects)) {
+			final Modifier m = modifier;
+			new Thread(new Runnable() {
+				   public void run() {
+					persistence.updateModifierEffects(m);
+				   }
+				}).start();
+			
+			// Disable modifier
+			for(Effect effect : modifier.getEffects()) {
+				Stat stat = getStat(effect.getStatID());
+				stat.removeEffect(effect);
+			}
+
+			modifier.setEffects(newEffects);
+			
+			// Re-enable modifier
+			if(modifier.isEnabled()) {
+				for(Effect effect : modifier.getEffects()) {
+					Stat stat = getStat(effect.getStatID());
+					stat.addEffect(effect);
+				}
+				callStatsListeners();
+			}
+			callModifiersListeners();
+		}
 	}
 	
 	/**
