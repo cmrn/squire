@@ -2,8 +2,6 @@ package me.cmrn.squire;
 
 import java.util.Locale;
 
-import org.holoeverywhere.app.DialogFragment;
-
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -36,10 +34,6 @@ public class Squire extends org.holoeverywhere.app.Activity implements
 		super.onCreate(savedInstanceState);
 		if(savedInstanceState == null) {
 			editMode = false;
-
-
-		    DialogFragment newFragment = new NagDialogFragment();
-		    newFragment.show(getSupportFragmentManager(), "nag");
 		} else {
 			editMode = savedInstanceState.getBoolean("editMode");
 		}
