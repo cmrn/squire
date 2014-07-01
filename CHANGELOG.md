@@ -18,3 +18,4 @@ Removed rogue tablet layout code causing crashes on tablets
 Version b1.0
 ============
 First beta release!
+
