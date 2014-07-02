@@ -1,6 +1,6 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- Application theme. -->
-    <style name="Light" parent="@android:style/Theme.Holo.Light.DarkActionBar">
+    <style name="Material" parent="@style/Theme.Material">
         <item name="menu_edit_icon">@drawable/edit_dark</item>
         <item name="menu_done_icon">@drawable/done_dark</item>
         <item name="menu_new_icon">@drawable/new_dark</item>
@@ -13,27 +13,21 @@
 	    <item name="negative_stat_color">#a00</item>
 	    <item name="default_stat_color">#555</item>
 	    <item name="dialog_title_color">#ff33b6e5</item>
-	    
-        <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Light</item>
+
+        <item name="android:actionBarStyle">@style/ActionBar.Solid.Material.Custom</item>
+        <item name="android:actionBarTabTextStyle">@style/ActionBar.TabText.Material.Custom</item>
     </style>
-    
-    <style name="ActionBarTabStyle.Light" parent="@android:style/Widget.Holo.ActionBar.TabView">
-        <item name="android:background">@drawable/tab_indicator_ab_light</item>
+
+
+
+    <style name="ActionBar.Solid.Material.Custom" parent="@style/ActionBar.Solid.Material">
+        <item name="android:titleTextStyle">@style/ActionBar.Title.Material.Custom</item>
     </style>
-    
-    <style name="Dark" parent="@android:style/Theme.Holo">
-        <item name="menu_edit_icon">@drawable/edit_dark</item>
-        <item name="menu_done_icon">@drawable/done_dark</item>
-        <item name="menu_new_icon">@drawable/new_dark</item>
-        <item name="new_icon">@drawable/new_dark</item>
-        <item name="discard_icon">@drawable/discard_dark</item>
-        <item name="remove_icon">@drawable/remove_dark</item>
-        <item name="drag_handle_icon">@drawable/drag_handle_dark</item>
-        <item name="bottom_bar_drawable">@drawable/bottom_bar_dark</item>
-	    <item name="positive_stat_color">#3b3</item>
-	    <item name="negative_stat_color">#b33</item>
-	    <item name="default_stat_color">#bbb</item>
-	    <item name="dialog_title_color">#ff0099cc</item>
+    <style name="ActionBar.Title.Material.Custom" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textColor">#ddffffff</item>
+    </style>
+    <style name="ActionBar.TabText.Material.Custom" parent="@android:style/Widget.Holo.ActionBar.TabText">
+        <item name="android:textColor">#ddffffff</item>
     </style>
     
     <style name="stat_number">
