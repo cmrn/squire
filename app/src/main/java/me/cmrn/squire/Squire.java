@@ -5,12 +5,21 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
+import android.widget.TextView;
 
 import java.util.Locale;
 
@@ -28,6 +37,68 @@ public class Squire extends Activity implements
 	ViewPager mViewPager;
 	
 	private boolean editMode;
+
+    private class MyAdapter extends BaseAdapter {
+        private LayoutInflater inflater;
+        private Context context;
+        private int layout;
+        private String[] items;
+
+        public MyAdapter(Context context, int layout, String[] items) {
+            LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            this.inflater = inflater;
+            this.context = context;
+            this.layout = layout;
+            this.items = items;
+        }
+
+        @Override
+        public int getCount() {
+            return items.length + 1;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return items[position];
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getDropDownView(int position, View convertView, ViewGroup parent) {
+            if(position == getCount()-1) {
+                View button = inflater.inflate(R.layout.actionbar_spinner_new_button, parent, false);
+                return button;
+            } else {
+                TextView view;
+                if (convertView != null && convertView instanceof TextView) {
+                    view = (TextView) convertView;
+                } else {
+                    view = (TextView) inflater.inflate(layout, parent, false);
+                }
+
+                view.setText(items[position]);
+                return view;
+            }
+        }
+
+        // When getting the view for the actionbar, restyle the view to be a title
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            if(position == getCount()-1) {
+                return new TextView(context);
+            } else {
+                TextView view = (TextView) getDropDownView(position, convertView, parent);
+                view.setTextAppearance(getApplicationContext(), R.style.TextAppearance_Title);
+                view.setTextColor(getResources().getColor(R.color.text_light_primary));
+                view.setPadding(0, 0, 0, 0);
+                return view;
+            }
+        }
+    }
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +116,32 @@ public class Squire extends Activity implements
 		}
 
 		setContentView(R.layout.activity_main);
+        // Set up the action bar.
+        final ActionBar actionBar = getActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        final Spinner spinner = new Spinner(this);
 
-		// Set up the action bar.
-		final ActionBar actionBar = getActionBar();
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        String[] array = new String[]{"Abed Nadir", "Troy Barnes", "Brita Perry"};
+        SpinnerAdapter mSpinnerAdapter = new MyAdapter(this, R.layout.actionbar_spinner_item, array);
+        spinner.setAdapter(mSpinnerAdapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position == spinner.getCount()-1) {
+                    CharacterDialogFragment dialog = new CharacterDialogFragment();
+                    dialog.show(getFragmentManager(), "new");
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) { }
+        });
+
+        actionBar.setCustomView(spinner);
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setTitle("");
+
+
     	// Load up the fragments in a pager
     	
 		// Create the adapter that will return a fragment for each of the
