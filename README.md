@@ -3,9 +3,14 @@ Squire - RPG Combat Assistant
 
 Squire is a tool for pen & paper RPG players to track which buffs, debuffs, and other modifiers are affecting their characters stats at any given moment. The user can select which modifiers are currently active, and see the current value of each stat given those modifiers. The user can add, edit, and remove stats and modifiers.
 
-How to build
-------------
-Android Studio instructions coming soon!
+How to open in Android Studio
+-----------------------------
+1. Clone the repository - `git clone https://github.com/cmrn/squire.git`
+2. Update the git submodules - `git submodule update`
+3. Open Android Studio, and choose "Open Project"
+4. Select the `build.gradle` file from the squire repository
+5. Make sure "Use default gradle wrapper" is checked
+6. Click OK
 
 Bugs, Features, & Contributions
 ------------
