@@ -20,14 +20,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Modifier"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textAppearance="@style/TextAppearance.Title" />
 
         <TextView
             android:id="@+id/effects"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Effect +2, Another +2"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:textAppearance="@style/TextAppearance.Body" />
     </LinearLayout>
 
     <CheckBox

@@ -1,41 +1,31 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
     <style name="TextAppearance.Headline" parent="TextAppearance.Headline.Common">
-        <item name="android:fontFamily">sans-serif</item>
     </style>
 
     <style name="TextAppearance.Title" parent="TextAppearance.Title.Common">
-        <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
     <style name="TextAppearance.Subhead" parent="TextAppearance.Subhead.Common">
-        <item name="android:fontFamily">sans-serif</item>
     </style>
 
     <style name="TextAppearance.Body" parent="TextAppearance.Body.Common">
-        <item name="android:fontFamily">sans-serif</item>
     </style>
 
     <style name="TextAppearance.Caption" parent="TextAppearance.Caption.Common">
-        <item name="android:fontFamily">sans-serif</item>
     </style>
 
     <style name="TextAppearance.Menu" parent="TextAppearance.Menu.Common">
-        <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
     <style name="stat_name" parent="stat_name.Common">
-        <item name="android:fontFamily">sans-serif</item>
     </style>
 
     <style name="stat_number" parent="stat_number.Common">
-        <item name="android:fontFamily">sans-serif</item>
     </style>
 
     <style name="stat_suffix" parent="stat_suffix.Common">
-        <item name="android:fontFamily">sans-serif-light</item>
     </style>
-
+    
     <style name="stat_sign" parent="stat_sign.Common">
-        <item name="android:fontFamily">sans-serif-light</item>
     </style>
 </resources>

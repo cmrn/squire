@@ -16,8 +16,7 @@
         android:layout_weight="1"
         android:hint="Modifier Name"
         android:inputType="textPersonName"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="?attr/dialog_title_color" />
+        android:textAppearance="@style/TextAppearance.Headline" />
 
     <ImageButton
         android:id="@+id/delete_modifier"

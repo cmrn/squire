@@ -1,10 +1,7 @@
 package me.cmrn.squire;
 
-import java.util.Locale;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
-
 import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -12,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.util.Locale;
 
 public class StatDialogFragment extends MyDialogFragment {	
 	private Stat stat;
@@ -51,6 +50,7 @@ public class StatDialogFragment extends MyDialogFragment {
 	    } else {
 		    for(Effect effect : stat.getEffects()) {
 		    	TextView text = new TextView(getActivity());
+                text.setTextAppearance(getActivity().getApplicationContext(), R.style.TextAppearance_Body);
 		    	text.setText(String.format("%+d", effect.getValue()) + stat.getSuffix() + " " + data.getModifier(effect.getModifierID()).getName());
 		    	
 				TypedArray ta = getActivity().getTheme().obtainStyledAttributes(

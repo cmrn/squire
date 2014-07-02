@@ -13,14 +13,14 @@
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
         android:text="Combat Stat"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        style="@style/stat_name" />
 
     <LinearLayout
         android:id="@+id/value_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-    	android:paddingRight="8dp" >
+    	android:paddingRight="8dp">
 
         <TextView
             android:id="@+id/sign"

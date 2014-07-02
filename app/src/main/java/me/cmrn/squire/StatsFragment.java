@@ -1,9 +1,12 @@
 package me.cmrn.squire;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,6 +16,7 @@ import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -105,8 +109,29 @@ public class StatsFragment extends MyFragment {
 			super(context, STAT_VIEW, data.getStats());
 			this.context = context;
 		}
-		
-		@Override
+
+        @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+        private void doValueKerning(TextView view, boolean resetOnly) {
+            if (android.os.Build.VERSION.SDK_INT >= 16) {
+                // Get metrics to convert sp -> px
+                DisplayMetrics metrics = new DisplayMetrics();
+                getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+                LinearLayout.LayoutParams params =
+                        new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                CharSequence valStr = view.getText();
+                if (!resetOnly && valStr.charAt(valStr.length() - 1) == '1') {
+                    // TODO: Refactor out magic number
+                    params.setMarginEnd((int)(-4 * metrics.scaledDensity));
+                }
+
+                view.setLayoutParams(params);
+            }
+        }
+
+        @Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			Stat stat = this.getItem(position);
 			if(convertView == null) {
@@ -122,6 +147,9 @@ public class StatsFragment extends MyFragment {
 		    String valStr = String.format("%+d", stat.getCurrentValue());
 		    valStr = valStr.substring(1); // remove sign
 		    value.setText(valStr);
+
+            boolean resetKerningOnly = !stat.getSuffix().equals("");
+            doValueKerning(value, resetKerningOnly);
 		    
 		    TextView sign = (TextView) convertView.findViewById(R.id.sign);
 		    if(stat.isSigned()) {

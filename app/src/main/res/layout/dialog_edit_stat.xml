@@ -24,7 +24,7 @@
                 android:layout_marginRight="8dp"
                 android:layout_weight="1"
                 android:text="Base Value:"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="@style/TextAppearance.Subhead" />
 
             <EditText
                 android:id="@+id/base_value"
@@ -47,7 +47,7 @@
                 android:layout_marginRight="8dp"
                 android:layout_weight="1"
                 android:text="Display +/-:"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="@style/TextAppearance.Subhead" />
 
             <CheckBox
                 android:id="@+id/signed"
@@ -68,7 +68,7 @@
                 android:layout_marginRight="8dp"
                 android:layout_weight="1"
                 android:text="Suffix:"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="@style/TextAppearance.Subhead" />
 
             <EditText
                 android:id="@+id/suffix"
