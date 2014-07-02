@@ -12,6 +12,7 @@ import android.content.Context;
 public class DataController {
 	private List<Stat> stats;
 	private List<Modifier> modifiers;
+    private List<Character> characters;
 	
 	private DataPersistence persistence;
 	private List<DataListener> listeners;
@@ -27,7 +28,8 @@ public class DataController {
 	public DataController(Context context) {
 		persistence = new DataPersistence(context);
 		stats = persistence.getAllStatsList();
-		modifiers = persistence.getAllModifiersList();
+        modifiers = persistence.getAllModifiersList();
+        characters = new ArrayList<Character>(); // TODO implement persistence
 		listeners = new ArrayList<DataListener>();
 	}
 	
@@ -58,13 +60,18 @@ public class DataController {
 			listener.onStatsUpdated();
 		}
 	}
-	
-	private void callModifiersListeners() {
-		for(DataListener listener : listeners) {
-			listener.onModifiersUpdated();
-		}
-		
-	}
+
+    private void callModifiersListeners() {
+        for(DataListener listener : listeners) {
+            listener.onModifiersUpdated();
+        }
+    }
+
+    private void callCharactersListeners() {
+        for(DataListener listener : listeners) {
+            listener.onModifiersUpdated();
+        }
+    }
 	
 	/**
 	 * Get a list of all the stats.
@@ -74,17 +81,26 @@ public class DataController {
 	public List<Stat> getStats() {
 		return Collections.unmodifiableList(stats);
 	}
-	
-	/**
-	 * Get a list of all the modifiers.
-	 * 
-	 * @return List containing all modifiers.
-	 */
-	public List<Modifier> getModifiers() {
-		return Collections.unmodifiableList(modifiers);
-	}
-	
-	/**
+
+    /**
+     * Get a list of all the modifiers.
+     *
+     * @return List containing all modifiers.
+     */
+    public List<Modifier> getModifiers() {
+        return Collections.unmodifiableList(modifiers);
+    }
+
+    /**
+     * Get a list of all the characters.
+     *
+     * @return List containing all characters.
+     */
+    public List<Character> getCharacters() {
+        return Collections.unmodifiableList(characters);
+    }
+
+    /**
 	 * Get the stat with the given ID.
 	 * 
 	 * @param id The ID of the stat.
@@ -96,22 +112,37 @@ public class DataController {
 				return s;
 		throw new IllegalArgumentException("No stat with that ID");
 	}
-	
-	
-	/**
-	 * Get the modifier with the given ID.
-	 * 
-	 * @param id The ID of the modifier.
-	 * @return The modifier with the given ID.
-	 */
-	public Modifier getModifier(int id) {
-		for(Modifier m : modifiers)
-			if(m.getID() == id)
-				return m;
-		throw new IllegalArgumentException("No modifier with that ID");
-	}
-	
-	/**
+
+
+    /**
+     * Get the modifier with the given ID.
+     *
+     * @param id The ID of the modifier.
+     * @return The modifier with the given ID.
+     */
+    public Modifier getModifier(int id) {
+        for(Modifier m : modifiers)
+            if(m.getID() == id)
+                return m;
+        throw new IllegalArgumentException("No modifier with that ID");
+    }
+
+
+
+    /**
+     * Get the character with the given ID.
+     *
+     * @param id The ID of the character.
+     * @return The character with the given ID.
+     */
+    public Character getCharacter(int id) {
+        for(Character c : characters)
+            if(c.getID() == id)
+                return c;
+        throw new IllegalArgumentException("No character with that ID");
+    }
+
+    /**
 	 * Get the stat at the given position.
 	 * 
 	 * @param id The ID of the stat.
@@ -152,17 +183,38 @@ public class DataController {
 		modifiers.add(modifier);
 		return modifier;
 	}
-	
-	/**
-	 * Create a new effect using the given information.
-	 * 
-	 * @return A newly created effect.
-	 */
-	public Effect createEffect(int statID, int modifierID, int value) {
-		Effect effect = persistence.createEffect(statID, modifierID, value);
-		getModifier(modifierID).addEffect(effect);
-		return effect;
-	}
+
+    /**
+     * Create a new effect using the given information.
+     *
+     * @return A newly created effect.
+     */
+    public Effect createEffect(int statID, int modifierID, int value) {
+        Effect effect = persistence.createEffect(statID, modifierID, value);
+        getModifier(modifierID).addEffect(effect);
+        return effect;
+    }
+
+    /**
+     * Create a new character using the given information.
+     *
+     * @return A newly created character.
+     */
+    public Character createCharacter(String name) {
+        // TODO: implement persistence
+        Character character = new Character();
+        character.setName(name);
+        int ID = 0;
+        if(characters.size() != 0)
+            ID = characters.get(characters.size()-1).getID() + 1;
+        character.setID(ID);
+
+        characters.add(character);
+
+        callCharactersListeners();
+
+        return character;
+    }
 
 	/**
 	 * Finds the stat with the same ID as the given stat and updates the values
@@ -238,6 +290,25 @@ public class DataController {
 			callModifiersListeners();
 		}
 	}
+
+    /**
+     * Finds the character with the same ID as the given character and updates the values
+     * to the values contained in the given character.
+     *
+     * @param character The character which contains the new values.
+     */
+    public void updateCharacter(Character character) {
+        final Character tCharacter = character;
+        // TODO: Implement persistence
+
+        for(Character c : characters) {
+            if(c.getID() == character.getID()) {
+                characters.set(characters.indexOf(c), character);
+                break;
+            }
+        }
+        callCharactersListeners();
+    }
 	
 	/**
 	 * Deletes a modifier along with all effects that reference that modifier.
@@ -266,39 +337,57 @@ public class DataController {
 		callModifiersListeners();
 		callStatsListeners();
 	}
-	
-	/**
-	 * Deletes a stat along with all effects that reference that stat.
-	 * 
-	 * @param stat The stat to delete.
-	 */
-	public void deleteStat(Stat stat) {
-		final Stat tStat = stat;
-		new Thread(new Runnable() {
-		   public void run() {
-		   	persistence.deleteStat(tStat);
-		   }
-		}).start();
-		
-		for(Stat s : stats) {
-			if(s.getID() == stat.getID()) {
-				stats.remove(s);
-				break;
-			}
-		}
-		
-		for(Modifier m : modifiers) {
-			for(Effect e : m.getEffects()) {
-				if(e.getStatID() == stat.getID()) {
-					m.removeEffect(e);
-					break;
-				}
-			}
-		}
-		callModifiersListeners();
-		
-		callStatsListeners();
-	}
+
+    /**
+     * Deletes a stat along with all effects that reference that stat.
+     *
+     * @param stat The stat to delete.
+     */
+    public void deleteStat(Stat stat) {
+        final Stat tStat = stat;
+        new Thread(new Runnable() {
+            public void run() {
+                persistence.deleteStat(tStat);
+            }
+        }).start();
+
+        for(Stat s : stats) {
+            if(s.getID() == stat.getID()) {
+                stats.remove(s);
+                break;
+            }
+        }
+
+        for(Modifier m : modifiers) {
+            for(Effect e : m.getEffects()) {
+                if(e.getStatID() == stat.getID()) {
+                    m.removeEffect(e);
+                    break;
+                }
+            }
+        }
+        callModifiersListeners();
+
+        callStatsListeners();
+    }
+
+    /**
+     * Deletes a character.
+     *
+     * @param character The character to delete.
+     */
+    public void deleteCharacter(Character character) {
+        final Character tCharacter = character;
+        // TODO: Persistence
+
+        for(Character c : characters) {
+            if(c.getID() == character.getID()) {
+                modifiers.remove(c);
+                break;
+            }
+        }
+        callCharactersListeners();
+    }
 
 	/**
 	 * @param from Current position of the stat.
