@@ -69,7 +69,7 @@ public class DataController {
 
     private void callCharactersListeners() {
         for(DataListener listener : listeners) {
-            listener.onModifiersUpdated();
+            listener.onCharactersUpdated();
         }
     }
 	

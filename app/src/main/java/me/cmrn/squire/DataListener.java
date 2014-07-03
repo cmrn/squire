@@ -11,5 +11,10 @@ public interface DataListener {
 	/**
 	 * Called when one or more stats are added, removed, or updated.
 	 */
-	void onStatsUpdated();
+    void onStatsUpdated();
+
+    /**
+     * Called when a character is added, removed, or updated.
+     */
+    void onCharactersUpdated();
 }
