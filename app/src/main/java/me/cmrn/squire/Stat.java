@@ -1,18 +1,19 @@
 package me.cmrn.squire;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Stat implements Parcelable {
 	public static final String ID_COLUMN = "id";
 	public static final String NAME_COLUMN = "name";
 	public static final String BASE_VALUE_COLUMN = "base_value";
 	public static final String IS_SIGNED_COLUMN = "is_signed";
-	public static final String SUFFIX_COLUMN = "suffix";
+    public static final String SUFFIX_COLUMN = "suffix";
+    public static final String CHARACTER_ID_COLUMN = "character_id";
 	
 	private int id;
 	private String name;
@@ -20,6 +21,7 @@ public class Stat implements Parcelable {
 	private boolean signed;
 	private List<Effect> effects;
 	private String suffix;
+    private int characterID;
 	
 	public Stat() { 
 		effects = new ArrayList<Effect>();
@@ -32,6 +34,7 @@ public class Stat implements Parcelable {
 		this.signed = DataPersistence.getBoolean(c, Stat.IS_SIGNED_COLUMN);
 		this.effects = new ArrayList<Effect>();
 		this.suffix = DataPersistence.getString(c, Stat.SUFFIX_COLUMN);
+        this.characterID = DataPersistence.getInt(c, Stat.CHARACTER_ID_COLUMN);
 	}
 	
 	public Stat(Parcel p) {
@@ -41,6 +44,7 @@ public class Stat implements Parcelable {
 		this.signed = (Boolean) p.readValue(boolean.class.getClassLoader());
 		p.readList(effects, Effect.class.getClassLoader());
 		this.suffix = p.readString();
+        this.characterID = p.readInt();
 	}
 	
 	public String toString() {
@@ -94,6 +98,14 @@ public class Stat implements Parcelable {
 		this.suffix = suffix;
 	}
 
+    public int getCharacterID() {
+        return characterID;
+    }
+
+    public void setCharacterID(int characterID) {
+        this.characterID = characterID;
+    }
+
 	public List<Effect> getEffects() {
 		return new ArrayList<Effect>(effects);
 	}
@@ -128,6 +140,7 @@ public class Stat implements Parcelable {
 		dest.writeValue(signed);
 		dest.writeList(effects);
 		dest.writeString(suffix);
+        dest.writeInt(characterID);
 	}
 	
 	public static final Creator<Stat> CREATOR

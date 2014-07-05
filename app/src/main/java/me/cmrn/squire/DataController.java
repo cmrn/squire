@@ -167,8 +167,8 @@ public class DataController {
 	 * 
 	 * @return A newly created stat.
 	 */
-	public Stat createStat(String name, int baseValue, boolean isSigned, String suffix) {
-		Stat stat = persistence.createStat(name, baseValue, isSigned, suffix);
+	public Stat createStat(String name, int baseValue, boolean isSigned, String suffix, int characterID) {
+		Stat stat = persistence.createStat(name, baseValue, isSigned, suffix, characterID);
 		stats.add(stat);
 		return stat;
 	}
@@ -178,8 +178,8 @@ public class DataController {
 	 * 
 	 * @return A newly created modifier.
 	 */
-	public Modifier createModifier(String name) {
-		Modifier modifier = persistence.createModifier(name);
+	public Modifier createModifier(String name, int characterID) {
+		Modifier modifier = persistence.createModifier(name, characterID);
 		modifiers.add(modifier);
 		return modifier;
 	}

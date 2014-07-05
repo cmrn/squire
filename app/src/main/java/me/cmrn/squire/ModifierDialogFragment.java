@@ -142,7 +142,7 @@ public class ModifierDialogFragment extends MyDialogFragment {
 	
 	private void updateModifier() {
 		if(modifier == null) {
-			modifier = data.createModifier(nameEdit.getText().toString());
+			modifier = data.createModifier(nameEdit.getText().toString(), ((Squire)getActivity()).getCharacter().getID());
 		} else {
 			modifier.setName(nameEdit.getText().toString());
 		}

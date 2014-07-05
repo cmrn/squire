@@ -122,10 +122,15 @@ public class ModifiersFragment extends MyFragment {
 		}
 	}
 
-	@Override
-	public void onStatsUpdated() {
-		
-	}
+    @Override
+    public void onStatsUpdated() {
+
+    }
+
+    @Override
+    public void onCharactersUpdated() {
+
+    }
 	
 	private class ModifiersAdapter extends ArrayAdapter<Modifier> {
 		private static final int MODIFIER_VIEW = R.layout.list_item_modifier;

@@ -1,20 +1,21 @@
 package me.cmrn.squire;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DataPersistence extends SQLiteOpenHelper {
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
 	private static final String DATABASE_NAME = "database"; 
     private static final String STATS_TABLE_NAME = "stats";
     private static final String MODIFIERS_TABLE_NAME = "modifiers";
     private static final String EFFECTS_TABLE_NAME = "effects";
+    private static final String CHARACTERS_TABLE_NAME = "characters";
     
     private SQLiteDatabase db;
     
@@ -23,40 +24,72 @@ public class DataPersistence extends SQLiteOpenHelper {
 		db = this.getWritableDatabase();
 	}
 
+    private void version1(SQLiteDatabase thisDB) {
+        thisDB.execSQL("CREATE TABLE " + STATS_TABLE_NAME + " (" +
+                Stat.ID_COLUMN + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                Stat.NAME_COLUMN + " TEXT NOT NULL, " +
+                Stat.BASE_VALUE_COLUMN + " INTEGER NOT NULL, " +
+                Stat.IS_SIGNED_COLUMN + " INTEGER NOT NULL, " +
+                Stat.SUFFIX_COLUMN + " TEXT NOT NULL " +
+                ");");
+        thisDB.execSQL("CREATE TABLE " + MODIFIERS_TABLE_NAME + " (" +
+                Modifier.ID_COLUMN + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                Modifier.NAME_COLUMN + " TEXT NOT NULL, " +
+                Modifier.IS_ENABLED_COLUMN + " INTEGER NOT NULL, " +
+                Modifier.POSITION_COLUMN + " INTEGER NOT NULL " +
+                ");");
+        thisDB.execSQL("CREATE TABLE " + EFFECTS_TABLE_NAME + " (" +
+                Effect.STAT_ID_COLUMN + " INTEGER NOT NULL, " +
+                Effect.MODIFIER_ID_COLUMN + " INTEGER NOT NULL, " +
+                Effect.VALUE_COLUMN + " INTEGER NOT NULL, " +
+                "FOREIGN KEY(" + Effect.STAT_ID_COLUMN + ") REFERENCES " + STATS_TABLE_NAME + "(" + Stat.ID_COLUMN + ")" +
+                "FOREIGN KEY(" + Effect.MODIFIER_ID_COLUMN + ") REFERENCES " + MODIFIERS_TABLE_NAME + "(" + Modifier.ID_COLUMN + ")" +
+                "PRIMARY KEY (" + Effect.STAT_ID_COLUMN  + "," + Effect.MODIFIER_ID_COLUMN + ")" +
+                ");");
+    }
+
+    private void version2(SQLiteDatabase thisDB) {
+        thisDB.execSQL("CREATE TABLE " + CHARACTERS_TABLE_NAME + " (" +
+                Character.ID_COLUMN + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                Character.NAME_COLUMN + " TEXT NOT NULL" +
+                ");");
+        thisDB.execSQL("ALTER TABLE " + STATS_TABLE_NAME + " " +
+                "ADD COLUMN " + Stat.CHARACTER_ID_COLUMN + " INTEGER NOT NULL DEFAULT 1" +
+                ";");
+        thisDB.execSQL("ALTER TABLE " + MODIFIERS_TABLE_NAME + " " +
+                "ADD COLUMN " + Modifier.CHARACTER_ID_COLUMN + " INTEGER NOT NULL DEFAULT 1" +
+                ";");
+    }
+
 	@Override
 	public void onCreate(SQLiteDatabase thisDB) {
-		thisDB.beginTransaction();
-		try {
-			thisDB.execSQL("CREATE TABLE " + STATS_TABLE_NAME + " (" +
-	                Stat.ID_COLUMN + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-	                Stat.NAME_COLUMN + " TEXT NOT NULL, " +
-	                Stat.BASE_VALUE_COLUMN + " INTEGER NOT NULL, " +
-	                Stat.IS_SIGNED_COLUMN + " INTEGER NOT NULL, " +
-	                Stat.SUFFIX_COLUMN + " TEXT NOT NULL " +
-	                ");");
-			thisDB.execSQL("CREATE TABLE " + MODIFIERS_TABLE_NAME + " (" +
-	                Modifier.ID_COLUMN + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-	                Modifier.NAME_COLUMN + " TEXT NOT NULL, " +
-	                Modifier.IS_ENABLED_COLUMN + " INTEGER NOT NULL, " +
-	                Modifier.POSITION_COLUMN + " INTEGER NOT NULL " +
-	                ");");
-			thisDB.execSQL("CREATE TABLE " + EFFECTS_TABLE_NAME + " (" +
-	                Effect.STAT_ID_COLUMN + " INTEGER NOT NULL, " +
-	                Effect.MODIFIER_ID_COLUMN + " INTEGER NOT NULL, " +
-	                Effect.VALUE_COLUMN + " INTEGER NOT NULL, " +
-	                "FOREIGN KEY(" + Effect.STAT_ID_COLUMN + ") REFERENCES " + STATS_TABLE_NAME + "(" + Stat.ID_COLUMN + ")" +
-	                "FOREIGN KEY(" + Effect.MODIFIER_ID_COLUMN + ") REFERENCES " + MODIFIERS_TABLE_NAME + "(" + Modifier.ID_COLUMN + ")" +
-	                "PRIMARY KEY (" + Effect.STAT_ID_COLUMN  + "," + Effect.MODIFIER_ID_COLUMN + ")" +
-	                ");");
-			thisDB.setTransactionSuccessful();
-		} finally {
-			thisDB.endTransaction();
-		}
+        onUpgrade(thisDB, 0, DATABASE_VERSION);
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase thisDB, int oldVersion, int newVersion) {
-		// Fill this method with logic to upgrade from previous versions of databases
+        thisDB.beginTransaction();
+        try {
+            int version = oldVersion;
+            while(version < newVersion) {
+                if (version == 0) {
+                    // 0 -> 1
+                    version1(thisDB);
+                }
+                if (version == 1) {
+                    // 1 -> 2
+                    version2(thisDB);
+                }
+                version++;
+            }
+
+            if(version != newVersion) {
+                throw new IllegalArgumentException("Cannot upgrade the database to the specified version");
+            }
+            thisDB.setTransactionSuccessful();
+        } finally {
+            thisDB.endTransaction();
+        }
 	}
 	
 	public Cursor getAllStats() {
@@ -69,7 +102,7 @@ public class DataPersistence extends SQLiteOpenHelper {
 		return cursor;
 	}
 	
-	public Stat createStat(String name, int baseValue, boolean isSigned, String suffix) {
+	public Stat createStat(String name, int baseValue, boolean isSigned, String suffix, int characterID) {
 		Stat stat = null;
 		db.beginTransaction();
 		try {
@@ -77,7 +110,8 @@ public class DataPersistence extends SQLiteOpenHelper {
 			values.put(Stat.NAME_COLUMN, name);
 			values.put(Stat.BASE_VALUE_COLUMN, baseValue);
 			values.put(Stat.IS_SIGNED_COLUMN, isSigned ? 1 : 0);
-			values.put(Stat.SUFFIX_COLUMN, suffix);
+            values.put(Stat.SUFFIX_COLUMN, suffix);
+            values.put(Stat.CHARACTER_ID_COLUMN, characterID);
 			long id = db.insert(STATS_TABLE_NAME, null, values);
 			if(id != -1) {
 				Cursor c = db.query(STATS_TABLE_NAME, null, "ROWID="+id, null, null, null, null);
@@ -92,13 +126,14 @@ public class DataPersistence extends SQLiteOpenHelper {
 		return stat;
 	}
 	
-	public Modifier createModifier(String name) {
+	public Modifier createModifier(String name, int characterID) {
 		Modifier modifier;
 		db.beginTransaction();
 		try {
 			ContentValues values = new ContentValues();
 			values.put(Modifier.NAME_COLUMN, name);
 			values.put(Modifier.IS_ENABLED_COLUMN, false);
+            values.put(Modifier.CHARACTER_ID_COLUMN, characterID);
 			Cursor c = db.rawQuery("SELECT MAX("+Modifier.POSITION_COLUMN+") AS maxpos FROM " + MODIFIERS_TABLE_NAME, null);
 			c.moveToFirst();
 			int maxPos = -1;
@@ -247,6 +282,7 @@ public class DataPersistence extends SQLiteOpenHelper {
 			ContentValues values = new ContentValues();
 			values.put(Modifier.NAME_COLUMN, modifier.getName());
 			values.put(Modifier.IS_ENABLED_COLUMN, modifier.isEnabled() ? 1 : 0);
+            values.put(Modifier.CHARACTER_ID_COLUMN, modifier.getCharacterID());
 			db.update(MODIFIERS_TABLE_NAME, values, Modifier.ID_COLUMN + "=" + modifier.getID(), null);
 			db.setTransactionSuccessful();
 		} finally {
@@ -321,7 +357,8 @@ public class DataPersistence extends SQLiteOpenHelper {
 			values.put(Stat.NAME_COLUMN, stat.getName());
 			values.put(Stat.BASE_VALUE_COLUMN, stat.getBaseValue());
 			values.put(Stat.IS_SIGNED_COLUMN, stat.isSigned() ? 1 : 0);
-			values.put(Stat.SUFFIX_COLUMN, stat.getSuffix());
+            values.put(Stat.SUFFIX_COLUMN, stat.getSuffix());
+            values.put(Stat.CHARACTER_ID_COLUMN, stat.getCharacterID());
 			db.update(STATS_TABLE_NAME, values, Stat.ID_COLUMN + "=" + stat.getID(), null);
 			db.setTransactionSuccessful();
 		} finally {

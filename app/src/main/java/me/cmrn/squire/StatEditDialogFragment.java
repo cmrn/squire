@@ -104,7 +104,7 @@ public class StatEditDialogFragment extends MyDialogFragment {
 		        	   signed = isSigned.isChecked();
 		        	   
 		        	   if(stat == null) {
-		        		   stat = data.createStat(name, value, signed, suffix);
+		        		   stat = data.createStat(name, value, signed, suffix, ((Squire)getActivity()).getCharacter().getID());
 		        	   } else {
 		        		   stat.setName(name);
 		        		   stat.setBaseValue(value);

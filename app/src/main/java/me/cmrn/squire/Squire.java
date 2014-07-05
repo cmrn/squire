@@ -58,6 +58,11 @@ public class Squire extends Activity implements
             return view;
         }
     }
+
+    public Character getCharacter() {
+        DataController data = ((MyApplication)getApplicationContext()).data;
+        return data.getCharacter(1);
+    }
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

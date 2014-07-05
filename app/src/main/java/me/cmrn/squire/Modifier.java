@@ -1,22 +1,24 @@
 package me.cmrn.squire;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Modifier implements Parcelable {
 	public static final String ID_COLUMN = "id";
 	public static final String NAME_COLUMN = "name";
 	public static final String IS_ENABLED_COLUMN = "is_enabled";
 	public static final String POSITION_COLUMN = "position";
+    public static final String CHARACTER_ID_COLUMN = "character_id";
 	
 	private int id;
 	private String name;
 	private List<Effect> effects;
 	private boolean enabled;
+    private int characterID;
 	
 	public Modifier() {
 		this.effects = new ArrayList<Effect>();
@@ -26,6 +28,7 @@ public class Modifier implements Parcelable {
 		this.id = DataPersistence.getInt(c, Modifier.ID_COLUMN);
 		this.name = DataPersistence.getString(c, Modifier.NAME_COLUMN);
 		this.enabled = DataPersistence.getBoolean(c, Modifier.IS_ENABLED_COLUMN);
+        this.characterID = DataPersistence.getInt(c, Modifier.CHARACTER_ID_COLUMN);
 		this.effects = new ArrayList<Effect>();
 	}
 	
@@ -34,6 +37,7 @@ public class Modifier implements Parcelable {
 		this.name = p.readString();
 		p.readList(effects, Effect.class.getClassLoader());
 		this.enabled = (Boolean) p.readValue(boolean.class.getClassLoader());
+        this.characterID = p.readInt();
 	}
 	
 	public String toString() {
@@ -51,6 +55,14 @@ public class Modifier implements Parcelable {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+    public int getCharacterID() {
+        return characterID;
+    }
+
+    public void setCharacterID(int characterID) {
+        this.characterID = characterID;
+    }
 	
 	public List<Effect> getEffects() {
 		return new ArrayList<Effect>(effects);
@@ -110,6 +122,7 @@ public class Modifier implements Parcelable {
 		dest.writeString(name);
 		dest.writeList(effects);
 		dest.writeValue(enabled);
+        dest.writeInt(characterID);
 	}
 	
 	public static final Creator<Modifier> CREATOR

@@ -100,6 +100,11 @@ public class StatsFragment extends MyFragment {
 			adapter.notifyDataSetChanged();
 		}		
 	}
+
+    @Override
+    public void onCharactersUpdated() {
+
+    }
 	
 	private class StatsAdapter extends ArrayAdapter<Stat> {
 		private static final int STAT_VIEW = R.layout.list_item_stat;
